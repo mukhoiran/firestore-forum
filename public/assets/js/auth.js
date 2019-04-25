@@ -1,4 +1,5 @@
 var auth = firebase.auth();
+var db = firebase.firestore();
 
 function login(provider){
   switch (provider) {
@@ -18,6 +19,25 @@ function login(provider){
     var user = result.user;
     // ...
     console.log('login success');
+
+    //is user exist?
+    //1. do nothing
+    //2. insert to database
+    db.collection('users').doc(user.uid).get()
+      .then((doc) => {
+        if(doc.exists){
+          console.log('already registered')
+        }else{
+          db.collection('users').doc(user.uid).set({
+            name: user.displayName
+          }).then(function(docRef){
+            console.log('register successfully')
+          }).catch(function(error){
+            console.log('register failed')
+          })
+        }
+      });
+
   }).catch(function(error) {
     // Handle Errors here.
     var errorCode = error.code;
