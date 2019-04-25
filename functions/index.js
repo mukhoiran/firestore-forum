@@ -1,8 +1,13 @@
 const functions = require('firebase-functions');
+const express = require('express');
+const cons = require('consolidate');
+const app = express();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+app.engine('hbs', cons.handlebars);
+app.set('view engine','hbs');
+app.set('views','./views');
+
+app.get('/forum', function(req, res){
+  res.render('forum');
+})
+exports.app = functions.https.onRequest(app);
