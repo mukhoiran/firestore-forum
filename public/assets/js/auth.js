@@ -1,7 +1,13 @@
 var auth = firebase.auth();
 
-function login(){
-  var provider = new firebase.auth.GoogleAuthProvider();
+function login(provider){
+  switch (provider) {
+    case 'gmail':
+      var provider = new firebase.auth.GoogleAuthProvider();
+    case 'facebook':
+      var provider = new firebase.auth.FacebookAuthProvider();
+    default:
+  }
 
   firebase.auth().signInWithPopup(provider).then(function(result) {
     // This gives you a Google Access Token. You can use it to access the Google API.
