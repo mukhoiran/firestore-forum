@@ -33,4 +33,22 @@ app.get('/forum', function(req, res){
       console.log(err)
     })
 })
+
+app.get('/forum/:slug', function(req, res){
+
+  var forum = null
+
+  db.collection('forums').where('slug','==',req.params.slug).get()
+    .then(snapshoot => {
+      snapshoot.forEach(doc => {
+        forum = doc.data()
+      })
+
+      res.render('forum-single', {forum: forum});
+
+    }).catch(err => {
+      console.log('failed load data')
+      console.log(err)
+    })
+})
 exports.app = functions.https.onRequest(app);

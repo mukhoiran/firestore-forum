@@ -76,6 +76,7 @@ function addForum(){
     }
   }).then(function(docRef){
     console.log('Forum successfully created!')
+    window.location = window.location.href + '/' +slug
   }).catch(function(eror){
     console.log('Forum failed to create!')
   });
