@@ -19,6 +19,7 @@
       firebase.initializeApp(config);
     </script>
     <script src="/assets/js/forum.js"></script>
+    <script src="/assets/js/forum-single.js"></script>
   </head>
   <body>
     <h1>Forum page</h1>
@@ -30,6 +31,22 @@
     <h2>{{forum.title}}</h2>
     <p>{{forum.desc}}</p>
     <p>{{forum.created_at}} / by {{forum.user.name}}</p>
+    <input type="hidden" id="owner-id" value="{{forum.user.user_id}}">
 
+    <button type="button" class="hidden" id="edit-btn" onclick="showEditForm()">Edit</button>
+
+    <hr>
+    <div class="hidden" id="editForm">
+      <label for="">Title</label><br>
+      <input type="text" name="" value="{{forum.title}}" id="newTitle"><br />
+      <label for="">Description</label><br>
+      <textarea name="name" rows="8" cols="80" id="newDesc">{{forum.desc}}</textarea><br>
+      <button type="button" name="button" id="update-btn" onclick="updateForum('{{forum.id}}')">Update</button>
+    </div>
   </body>
+  <style media="screen">
+    .hidden{
+      display: none;
+    }
+  </style>
 </html>

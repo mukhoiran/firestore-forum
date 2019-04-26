@@ -87,6 +87,10 @@ auth.onAuthStateChanged(function(user){
   if(user){
     console.log('login...')
     currentUser = user
+
+    if(document.getElementById('owner-id').value == user.uid){
+      document.getElementById('edit-btn').classList.remove('hidden')
+    }
   }else{
     console.log('logout...')
   }

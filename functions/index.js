@@ -42,6 +42,7 @@ app.get('/forum/:slug', function(req, res){
     .then(snapshoot => {
       snapshoot.forEach(doc => {
         forum = doc.data()
+        forum.id = doc.id
       })
 
       res.render('forum-single', {forum: forum});
