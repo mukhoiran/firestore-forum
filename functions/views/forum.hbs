@@ -18,7 +18,7 @@
       };
       firebase.initializeApp(config);
     </script>
-    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/forum.js"></script>
   </head>
   <body>
     <h1>Forum page</h1>
@@ -26,5 +26,11 @@
     <button type="button" name="button" onclick="login('facebook')">Login Facebook</button>
     <button type="button" name="button" onclick="login('twitter')">Login Twitter</button>
     <button type="button" name="button" onclick="logout()">Logout</button>
+    <hr>
+    <label for="">Judul</label><br>
+    <input type="text" name="" value="" id="newTitle"><br>
+    <label for="">Isi</label><br>
+    <textarea name="name" id="newDesc" rows="8" cols="80"></textarea><br>
+    <button type="button" name="button" onclick="addForum()">Submit Topic</button>
   </body>
 </html>

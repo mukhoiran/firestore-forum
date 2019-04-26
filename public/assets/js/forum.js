@@ -59,6 +59,24 @@ function logout(){
   })
 }
 
+function addForum(){
+  var newTitle = document.getElementById('newTitle').value;
+  var newDesc = document.getElementById('newDesc').value;
+  var slug = newTitle.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+
+  db.collection('forums').add({
+    title : newTitle,
+    slug : slug,
+    desc : newDesc.replace("<br/>","\n"),
+    created_at : new Date,
+    updated_at : new Date
+  }).then(function(docRef){
+    console.log('Forum successfully created!')
+  }).catch(function(eror){
+    console.log('Forum failed to create!')
+  });
+}
+
 auth.onAuthStateChanged(function(user){
   if(user){
     console.log('login...')
