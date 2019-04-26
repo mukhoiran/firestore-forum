@@ -69,7 +69,11 @@ function addForum(){
     slug : slug,
     desc : newDesc.replace("<br/>","\n"),
     created_at : new Date,
-    updated_at : new Date
+    updated_at : new Date,
+    user: {
+      user_id: currentUser.uid,
+      name: currentUser.displayName
+    }
   }).then(function(docRef){
     console.log('Forum successfully created!')
   }).catch(function(eror){
@@ -77,9 +81,11 @@ function addForum(){
   });
 }
 
+var currentUser = null
 auth.onAuthStateChanged(function(user){
   if(user){
     console.log('login...')
+    currentUser = user
   }else{
     console.log('logout...')
   }
