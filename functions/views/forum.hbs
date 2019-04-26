@@ -27,6 +27,14 @@
     <button type="button" name="button" onclick="login('twitter')">Login Twitter</button>
     <button type="button" name="button" onclick="logout()">Logout</button>
     <hr>
+    <h2>List Forum</h2>
+    <ul>
+      {{#each forums}}
+        <li> <a href="/forum/{{slug}}">{{title}} - By {{user.name}}</a> </li>
+      {{/each}}
+    </ul>
+
+    <hr>
     <label for="">Judul</label><br>
     <input type="text" name="" value="" id="newTitle"><br>
     <label for="">Isi</label><br>
