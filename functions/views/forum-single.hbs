@@ -32,6 +32,7 @@
     <p>{{forum.desc}}</p>
     <p>{{forum.created_at}} / by {{forum.user.name}}</p>
     <input type="hidden" id="owner-id" value="{{forum.user.user_id}}">
+    <input type="hidden" id="forum-id" value="{{forum.id}}">
 
     <button type="button" class="hidden" id="edit-btn" onclick="showEditForm()">Edit</button>
 
@@ -46,9 +47,17 @@
 
     <h2>List Comment</h2>
     {{#each replies}}
-      <p>{{desc}}</p>
-      <b>write by {{user.name}}</b>
+      <p>{{data.desc}}</p>
+      <b>write by {{data.user.name}}</b>
+      <button type="button" class="replies-button hidden" reply-owner-id="{{data.user.user_id}}" onclick="editReply('{{id}}','{{data.desc}}')">Edit</button>
     {{/each}}
+
+    <hr>
+    <div class="hidden" id="formEditReply">
+      <h2>Edit Reply</h2>
+      <textarea name="name" rows="8" cols="80" id="replyEditBox"></textarea><br>
+      <button type="button" name="button" onclick="updateReply()">Update</button>
+    </div>
 
     <hr>
     <h2>Form Reply</h2>

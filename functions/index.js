@@ -20,7 +20,7 @@ app.set('views','./views');
 app.get('/forum', function(req, res){
   var forums = []
 
-  db.collection('forums').orderBy('updated_at','desc').get()
+  db.collection('forums').orderBy('created_at','desc').get()
     .then(snapshoot => {
       snapshoot.forEach(doc => {
         forums.push(doc.data())
@@ -48,10 +48,13 @@ app.get('/forum/:slug', function(req, res){
       //load replies
       var replies = [];
       db.collection('forums').doc(forum.id).collection('replies')
-        .orderBy('updated_at','desc').get()
+        .orderBy('created_at','desc').get()
           .then(snapshoot => {
             snapshoot.forEach(doc => {
-              replies.push(doc.data())
+              replies.push({
+                data: doc.data(),
+                id: doc.id
+              })
             })
 
             res.render('forum-single', {forum: forum, replies: replies});

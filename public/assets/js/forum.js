@@ -2,14 +2,12 @@ var auth = firebase.auth();
 var db = firebase.firestore();
 
 function login(provider){
-  switch (provider) {
-    case 'gmail':
-      var provider = new firebase.auth.GoogleAuthProvider();
-    case 'facebook':
-      var provider = new firebase.auth.FacebookAuthProvider();
-    case 'twitter':
-      var provider = new firebase.auth.TwitterAuthProvider();
-    default:
+  if (provider == 'gmail') {
+    var provider = new firebase.auth.GoogleAuthProvider();
+  } else if (provider == 'facebook') {
+    var provider = new firebase.auth.FacebookAuthProvider();
+  }else if (provider == 'twitter') {
+    var provider = new firebase.auth.TwitterAuthProvider();
   }
 
   firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -88,13 +86,29 @@ auth.onAuthStateChanged(function(user){
     console.log('login...')
     currentUser = user
 
-    if(document.getElementById('owner-id').value == user.uid){
-      document.getElementById('edit-btn').classList.remove('hidden')
-    }
+    checkForumOwner(user.uid)
+    checkRepliesOwner(user.uid)
   }else{
     console.log('logout...')
   }
 })
+
+function checkForumOwner(forum_owner_id){
+  if(document.getElementById('owner-id').value == forum_owner_id){
+    document.getElementById('edit-btn').classList.remove('hidden')
+  }
+}
+
+function checkRepliesOwner(forum_owner_id){
+  var elements = document.getElementsByClassName('replies-button')
+  for (var i = 0; i < elements.length; i++) {
+    if(elements[i].getAttribute('reply-owner-id') == forum_owner_id){
+      elements[i].classList.remove('hidden')
+    }
+
+  }
+
+}
 
 function addReply(id){
   var newReply = document.getElementById('replyBox').value;
@@ -110,8 +124,35 @@ function addReply(id){
     }
   }).then(function(docRef){
     console.log('Reply successfully created!')
-    window.location = window.location.href + '/' +slug
+    location.reload()
   }).catch(function(eror){
     console.log('Reply failed to create!')
+  });
+}
+
+var activeReplyId = '';
+function editReply(replyId, prevDesc){
+  activeReplyId = replyId
+  //fill up textarea
+  document.getElementById('replyEditBox').value = prevDesc
+
+  // show form edit update
+  document.getElementById('formEditReply').classList.remove('hidden')
+}
+
+function updateReply(){
+  var forumId = document.getElementById('forum-id').value
+  var newReply = document.getElementById('replyEditBox').value
+  var dbRef = db.collection('forums').doc(forumId).collection('replies').doc(activeReplyId)
+
+  dbRef.set({
+    desc: newReply.replace("<br/>","\n"),
+    updated_at: new Date()
+  }, {merge:true})
+  .then(function(docRef){
+    console.log('Edit reply success!')
+    location.reload()
+  }).catch(function(eror){
+    console.log('Edit reply failed!')
   });
 }
