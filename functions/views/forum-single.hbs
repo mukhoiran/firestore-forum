@@ -44,6 +44,12 @@
       <button type="button" name="button" id="update-btn" onclick="updateForum('{{forum.id}}')">Update</button>
     </div>
 
+    <h2>List Comment</h2>
+    {{#each replies}}
+      <p>{{desc}}</p>
+      <b>write by {{user.name}}</b>
+    {{/each}}
+
     <hr>
     <h2>Form Reply</h2>
     <textarea name="name" rows="8" cols="80" id="replyBox"></textarea><br>

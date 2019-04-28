@@ -45,7 +45,20 @@ app.get('/forum/:slug', function(req, res){
         forum.id = doc.id
       })
 
-      res.render('forum-single', {forum: forum});
+      //load replies
+      var replies = [];
+      db.collection('forums').doc(forum.id).collection('replies')
+        .orderBy('updated_at','desc').get()
+          .then(snapshoot => {
+            snapshoot.forEach(doc => {
+              replies.push(doc.data())
+            })
+
+            res.render('forum-single', {forum: forum, replies: replies});
+          }).catch(err => {
+            console.log('failed load data')
+            console.log(err)
+          })
 
     }).catch(err => {
       console.log('failed load data')
