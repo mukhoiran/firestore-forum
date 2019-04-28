@@ -95,3 +95,23 @@ auth.onAuthStateChanged(function(user){
     console.log('logout...')
   }
 })
+
+function addReply(id){
+  var newReply = document.getElementById('replyBox').value;
+  var forumsRef = db.collection('forums').doc(id)
+
+  forumsRef.collection('replies').add({
+    desc : newReply.replace("<br/>","\n"),
+    created_at : new Date,
+    updated_at : new Date,
+    user: {
+      user_id: currentUser.uid,
+      name: currentUser.displayName
+    }
+  }).then(function(docRef){
+    console.log('Reply successfully created!')
+    window.location = window.location.href + '/' +slug
+  }).catch(function(eror){
+    console.log('Reply failed to create!')
+  });
+}

@@ -43,6 +43,11 @@
       <textarea name="name" rows="8" cols="80" id="newDesc">{{forum.desc}}</textarea><br>
       <button type="button" name="button" id="update-btn" onclick="updateForum('{{forum.id}}')">Update</button>
     </div>
+
+    <hr>
+    <h2>Form Reply</h2>
+    <textarea name="name" rows="8" cols="80" id="replyBox"></textarea><br>
+    <button type="button" name="button" onclick="addReply('{{forum.id}}')">reply</button>
   </body>
   <style media="screen">
     .hidden{
