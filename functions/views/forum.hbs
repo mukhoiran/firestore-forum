@@ -2,13 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
-    {{> auth}}
+    <title>{{forum.title}}</title>
+    {{> script}}
   </head>
   <body>
     <h1>Forum page</h1>
 
     {{> auth}}
+
+    <input type="hidden" id="owner-id" value="">
+    <input type="hidden" id="forum-id" value="">
 
     <h2>List Forum</h2>
     <ul>

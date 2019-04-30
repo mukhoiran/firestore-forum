@@ -69,10 +69,38 @@ auth.onAuthStateChanged(function(user){
 
     checkForumOwner(user.uid)
     checkRepliesOwner(user.uid)
+    toggleLogin()
   }else{
     console.log('logout...')
+    toggleLogin()
   }
 })
+
+function toggleLogin(){
+  document.getElementById('login-wrapper').classList.toggle("hidden");
+  document.getElementById('logout-wrapper').classList.toggle("hidden");
+}
+
+//============================================================
+//=================GENERAL====================================
+//============================================================
+
+function checkForumOwner(forum_owner_id){
+  if(document.getElementById('owner-id').value == forum_owner_id){
+    document.getElementById('edit-btn').classList.remove('hidden')
+  }
+}
+
+function checkRepliesOwner(forum_owner_id){
+  var elements = document.getElementsByClassName('replies-button')
+  for (var i = 0; i < elements.length; i++) {
+    if(elements[i].getAttribute('reply-owner-id') == forum_owner_id){
+      elements[i].classList.remove('hidden')
+    }
+
+  }
+
+}
 
 //========================================================
 //=====================FORUM==============================
@@ -118,27 +146,6 @@ function updateForum(id){
     console.log('update data failed')
     console.log(error)
   });
-}
-
-//============================================================
-//=================GENERAL====================================
-//============================================================
-
-function checkForumOwner(forum_owner_id){
-  if(document.getElementById('owner-id').value == forum_owner_id){
-    document.getElementById('edit-btn').classList.remove('hidden')
-  }
-}
-
-function checkRepliesOwner(forum_owner_id){
-  var elements = document.getElementsByClassName('replies-button')
-  for (var i = 0; i < elements.length; i++) {
-    if(elements[i].getAttribute('reply-owner-id') == forum_owner_id){
-      elements[i].classList.remove('hidden')
-    }
-
-  }
-
 }
 
 //============================================================
