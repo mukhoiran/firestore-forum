@@ -1,6 +1,10 @@
 var auth = firebase.auth();
 var db = firebase.firestore();
 
+//=======================================================
+//=================AUTHENTICATION========================
+//=======================================================
+
 function login(provider){
   if (provider == 'gmail') {
     var provider = new firebase.auth.GoogleAuthProvider();
@@ -57,6 +61,23 @@ function logout(){
   })
 }
 
+var currentUser = null
+auth.onAuthStateChanged(function(user){
+  if(user){
+    console.log('login...')
+    currentUser = user
+
+    checkForumOwner(user.uid)
+    checkRepliesOwner(user.uid)
+  }else{
+    console.log('logout...')
+  }
+})
+
+//========================================================
+//=====================FORUM==============================
+//========================================================
+
 function addForum(){
   var newTitle = document.getElementById('newTitle').value;
   var newDesc = document.getElementById('newDesc').value;
@@ -80,18 +101,28 @@ function addForum(){
   });
 }
 
-var currentUser = null
-auth.onAuthStateChanged(function(user){
-  if(user){
-    console.log('login...')
-    currentUser = user
+function showEditForm(){
+  document.getElementById('editForm').classList.remove('hidden')
+}
 
-    checkForumOwner(user.uid)
-    checkRepliesOwner(user.uid)
-  }else{
-    console.log('logout...')
-  }
-})
+function updateForum(id){
+  db.collection('forums').doc(id).set({
+    title: document.getElementById('newTitle').value,
+    desc: document.getElementById('newDesc').value.replace("<br/>", "\n"),
+    updated_at: new Date()
+  }, {merge: true})
+  .then(function(){
+    console.log('update data successfully')
+    location.reload()
+  }).catch(function(error){
+    console.log('update data failed')
+    console.log(error)
+  });
+}
+
+//============================================================
+//=================GENERAL====================================
+//============================================================
 
 function checkForumOwner(forum_owner_id){
   if(document.getElementById('owner-id').value == forum_owner_id){
@@ -109,6 +140,10 @@ function checkRepliesOwner(forum_owner_id){
   }
 
 }
+
+//============================================================
+//=====================REPLY==================================
+//============================================================
 
 function addReply(id){
   var newReply = document.getElementById('replyBox').value;

@@ -3,31 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>{{forum.title}}</title>
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-    <!-- <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script> -->
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase-firestore.js"></script>
-    <script>
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyBrORjOwNcjjrbJuDmNXvDpNzrCHiD4EDs",
-        authDomain: "forum-4d67d.firebaseapp.com",
-        databaseURL: "https://forum-4d67d.firebaseio.com",
-        projectId: "forum-4d67d",
-        storageBucket: "forum-4d67d.appspot.com",
-        messagingSenderId: "1029205309084"
-      };
-      firebase.initializeApp(config);
-    </script>
-    <script src="/assets/js/forum.js"></script>
-    <script src="/assets/js/forum-single.js"></script>
+    {{> script}}
   </head>
   <body>
     <h1>Forum page</h1>
-    <button type="button" name="button" onclick="login('gmail')">Login Gmail</button>
-    <button type="button" name="button" onclick="login('facebook')">Login Facebook</button>
-    <button type="button" name="button" onclick="login('twitter')">Login Twitter</button>
-    <button type="button" name="button" onclick="logout()">Logout</button>
-    <hr>
+
+    {{> auth}}
+
     <h2>{{forum.title}}</h2>
     <p>{{forum.desc}}</p>
     <p>{{forum.created_at}} / by {{forum.user.name}}</p>

@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const express = require('express');
 const cons = require('consolidate');
+const hbs = require('express-handlebars');
 const app = express();
 
 var serviceAccount = require("./serviceAccountKey.json");
@@ -13,7 +14,11 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-app.engine('hbs', cons.handlebars);
+// app.engine('hbs', cons.handlebars);
+app.engine('hbs', hbs({
+  extname: 'hbs',
+  partialsDir:  __dirname + '/views/partials'
+}))
 app.set('view engine','hbs');
 app.set('views','./views');
 
