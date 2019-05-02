@@ -25,13 +25,15 @@ app.set('views','./views');
 app.get('/forum', function(req, res){
   var forums = []
 
-  db.collection('forums').orderBy('created_at','desc').get()
+  db.collection('forums').orderBy('created_at','desc').limit(2).get()
     .then(snapshoot => {
       snapshoot.forEach(doc => {
         forums.push(doc.data())
       })
 
-      res.render('forum', {forums: forums});
+      var lastItem = forums[forums.length -1]
+
+      res.render('forum', {forums: forums, lastBlogTime: Date.parse(lastItem.created_at)});
 
     }).catch(err => {
       console.log('failed load data')
@@ -73,4 +75,27 @@ app.get('/forum/:slug', function(req, res){
       console.log(err)
     })
 })
+
+app.get('/forum/older/:lastTime', function(req, res){
+  var forums = []
+  var lastTime = new Date(parseInt(req.params.lastTime))
+
+  db.collection('forums').where('created_at','<',lastTime)
+    .orderBy('created_at','desc').limit(2).get()
+    .then(snapshoot => {
+      snapshoot.forEach(doc => {
+        forums.push(doc.data())
+      })
+
+      var lastItem = forums[forums.length -1]
+
+      res.render('forum', {forums: forums, lastBlogTime: Date.parse(lastItem.created_at)});
+
+    }).catch(err => {
+      console.log('failed load data')
+      console.log(err)
+      res.render('forum-empty')
+    })
+})
+
 exports.app = functions.https.onRequest(app);
